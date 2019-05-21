@@ -49,27 +49,31 @@ or microservices, that are popular and well-supported today.
 
 At the simplest end, we now have basic HTTP APIs: you make a request to a URI, and it responds
 with data, hopefully in the format you requested (JSON, XML, etc.). This includes APIs that
-strictly conform with the ReST architectural style, but also simple "CRUD-over-HTTP" APIs that just
+strictly conform with [the ReST architectural style](https://en.wikipedia.org/wiki/Representational_state_transfer),
+but also simple "CRUD-over-HTTP" APIs that just
 use GET, PUT, POST and DELETE requests to retrieve, store and manage data. These APIs can apply
 security using any of the available HTTP authentication options, and can be made secure simply
 by applying SSL/TLS to the connection. For basic SOAP-over-HTTP or SOAP-over-TCP request/response
 WCF applications, an HTTP API is a good potential alternative.
 
-HTTP APIs created with .NET Core 2.x can be documented using Swagger, which includes the ability
+HTTP APIs created with .NET Core 2.x can be documented using [Swagger](https://swagger.io/), which includes the ability
 to read the API metadata from a known endpoint and [generate client library code](https://swagger.io/tools/swagger-codegen/).
 Visual Studio 2019 and 2017 both include support for adding "REST API" clients to a project
 from a Swagger URL.
 
 ##### gRPC
 
-Initially developed at Google, gRPC uses HTTP/2 for transport and Protocol Buffers (Protobuf)
+Initially developed at Google, [gRPC](https://grpc.io/) uses HTTP/2 for transport and 
+[Protocol Buffers](https://github.com/protocolbuffers/protobuf) (Protobuf)
 as the wire format. It is a promising drop-in replacement for some of WCF's more complicated
-abilities like full-duplex messaging over TCP. gRPC has a very similar approach to WCF in that
+abilities, like full-duplex messaging over TCP. gRPC has a very similar approach to WCF in that
 the creator of the service declares contracts, in this case using a dedicated Interface Definition
-Language (IDL), from which the base code for both server and client can be generated. The code is
+Language (IDL), from which the base code for both server and client can be generated. The "wiring up"
+of the service is handled in the generated code, and the developer can focus on implementing
+functionality in derived classes. The generated code is
 very efficient and takes care of serializing/deserializing data-transfer objects and processing
 requests and responses. Because the Protobuf serialization format is very compact, gRPC generates
-much less network traffic than a SOAP service, or a JSON or XML HTTP API. Protobuf is also faster
+less network traffic than a SOAP service, or a JSON or XML HTTP API. Protobuf is also faster
 and more memory efficient than text-based serialization, resulting in meaningful performance and
 scalability gains.
 
@@ -77,9 +81,12 @@ gRPC also supports request/response streaming, where a client can asynchronously
 requests and receive a stream of responses, which is a possible alternative to full-duplex WCF
 services.
 
-In the current ASP.NET Core 3.0 preview there is already support for this code-generation step,
-fully integrated with the MSBuild process, and in Visual Studio 2019 the experience is almost seamless,
-with tooling support like syntax highlighting and IntelliSense for `.proto` files.
+In the [current ASP.NET Core 3.0 preview](https://dotnet.microsoft.com/download/dotnet-core/3.0)
+there is already support for this code-generation step, using `dotnet new grpc` at the command line.
+The code generation step is fully integrated with the MSBuild process, and in Visual Studio 2019
+the experience is almost seamless, with tooling support like syntax highlighting and IntelliSense for
+`.proto` files. Because .NET Core 3.0 is in preview, the VS2019 "New Project" wizard does not know
+about the `grpc` project type, but I expect that will come with the full release.
 
 There are gRPC code generators available for most platforms or languages, including C/C++, Go, Java,
 Node, PHP, Python, Ruby and in-browser JavaScript, so interop between systems is easy to implement. Protobuf
@@ -88,7 +95,8 @@ to an object, for example.
 
 ##### WebSockets / SignalR
 
-WebSockets are an open standard for maintaining persistent connections between client and server, and
+[WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) are
+an open standard for maintaining persistent connections between client and server, and
 sending arbitrary messages in both directions. That makes them another potential alternative for WCF's
 full-duplex messaging. Although WebSockets were originally designed for browsers, they can also be used
 from C#, Java and other platforms.
@@ -97,10 +105,13 @@ Because WebSockets are a low-level networking solution, they are completely agno
 messages sent and received, so you can use JSON, Protobuf, MessagePack or any format you like, as long
 as the code at either end of the socket can parse it.
 
-SignalR is an ASP.NET project that provides a very simple wrapper over WebSockets, making it easy to create
-servers as part of an ASP.NET Core project, and to access those servers from JavaScript, C# and Java applications.
-It has out-of-the-box support for serialization using JSON and MessagePack (a binary protocol similar to Protobuf),
-and messages sent over WebSockets have minimal network overhead. Microsoft Azure has a SignalR as a Service
+[SignalR](https://dotnet.microsoft.com/apps/aspnet/real-time) is an ASP.NET Core feature that provides
+a very simple wrapper over WebSockets, making it easy to create real-time
+servers as part of an ASP.NET Core project. There are client libraries to access those servers from JavaScript, C# and Java applications.
+It has out-of-the-box support for serialization using JSON and [MessagePack](https://msgpack.org/index.html)
+(a binary protocol similar to Protobuf),
+and messages sent over WebSockets have minimal network overhead. Microsoft Azure has a
+[SignalR as a Service](https://azure.microsoft.com/en-gb/services/signalr-service/)
 offering which makes it easy to deploy, maintain and scale SignalR applications in the cloud.
 
 ### Are these long term solutions?
@@ -109,7 +120,9 @@ There are two parts to this question. First, will these protocols themselves be 
 justify investing in them? And second, will Microsoft continue to provide first-class support for them?
 
 As to the first part, HTTP and WebSockets are both standards of the Open Web, and will likely be around for
-a long time. gRPC and Protobuf are Google technologies and are not governed by an independent standards
+a long time in one form or another (we've only just got onto HTTP/2.0 and
+[HTTP/3.0](https://en.wikipedia.org/wiki/HTTP/3) is already being worked on).
+gRPC and Protobuf are Google technologies and are not governed by an independent standards
 body, but they are well-documented and completely open source (Apache 2.0 for gRPC and BSD for Protobuf).
 Adoption of gRPC is sufficiently widespread and includes large enough companies that even if Google themselves
 stopped developing and using it, the community would continue to maintain it. SignalR is a Microsoft technology,
