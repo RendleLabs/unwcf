@@ -8,9 +8,10 @@ tags: ["wcf", "grpc"]
 author: "Mark Rendle"
 ---
 
-One of the alternatives recommended by Microsoft for organizations looking for a migration path away from WCF
-on .NET Framework is gRPC: a low-overhead, high-performance, cross-platform RPC framework. The upcoming .NET Core 3.0
-has first-class support for gRPC; out of the box, you can create a new project with `dotnet new grpc`.
+One of the alternatives [recommended by Microsoft](https://devblogs.microsoft.com/dotnet/net-core-is-the-future-of-net/) 
+for organizations looking for a migration path away from WCF
+on .NET Framework is [gRPC](https://grpc.io): a low-overhead, high-performance, cross-platform RPC framework.
+The upcoming .NET Core 3.0 has first-class support for gRPC; out of the box, you can create a new project with `dotnet new grpc`.
 
 This creates an ASP.NET Core 3.0 project with the usual `Program.cs` (remember, ASP.NET Core apps are console apps)
 and `Startup.cs`, plus an example gRPC service called Greet.
