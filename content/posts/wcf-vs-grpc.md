@@ -81,6 +81,10 @@ proto file:
 
 ### Performance comparison
 
+**UPDATE:** *These tests were run using the basic HTTP binding for WCF, which is not the most appropriate
+binding to compare to gRPC. [This follow-up post](/posts/wcf-vs-grpc-round-2) shows a more representative
+comparison, using NetTCP binding for WCF (and also a modified version of the gRPC solution).*
+
 So how does gRPC perform compared to WCF? Here are the results from BenchmarkDotNet comparing a sample WCF service to an
 equivalent .NET Core 3.0 gRPC service, which was generated using an automated conversion tool currently in development.
 
@@ -109,6 +113,8 @@ Benchmarking these two implementations with the auto-generated client code for e
 
 So it looks like gRPC is about 33% faster than WCF, and allocates nearly 95% less memory, which is a pretty good win
 for an auto-converted project.
+
+*Again, please refer to [this post](/posts/wcf-vs-grpc-round-2) for a more accurate comparison using WCF NetTCP binding.*
 
 Here's a video showing the conversion tool (working title "Uplift" may change before release) in use in VS2019, and the
 benchmarks running:
