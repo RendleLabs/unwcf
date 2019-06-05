@@ -1,7 +1,7 @@
 ---
 title: "WCF vs gRPC - Round 2"
 date: 2019-06-05T18:48:36+01:00
-draft: true
+draft: false
 
 categories: ["comparisons"]
 tags: ["wcf", "grpc"]
