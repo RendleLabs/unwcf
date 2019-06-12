@@ -28,6 +28,9 @@ Given this reality, there are three main options available when designing or bui
 2. The 2-Phase Commit pattern.
 3. The Saga pattern.
 
+**NOTE:** This post is not intended as an in-depth treatment of any of these approaches or patterns, but rather
+seeks to create awareness of them, to give you a starting point for further research.
+
 #### Avoid using distributed transactions
 
 While this is not always an option, you may find that where you used some form of atomic transaction
